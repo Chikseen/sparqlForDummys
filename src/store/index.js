@@ -1,14 +1,15 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    currentItems: [],
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
+    setCurrentItems(state, payload) {
+      state.currentItems = payload;
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});
