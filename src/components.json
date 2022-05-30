@@ -1,0 +1,53 @@
+{
+  "prefix": {
+    "id": "prefix",
+    "titel": "Prefix",
+    "isSingleUse": false,
+    "allowChilds": [],
+    "hasUnlimtedInputs": false,
+    "hasInput": [
+      {
+        "type": "text",
+        "unit": "",
+        "style": "short",
+        "value": "rdf"
+      },
+      {
+        "type": "text",
+        "unit": "",
+        "style": "long",
+        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns"
+      }
+    ]
+  },
+  "select": {
+    "id": "select",
+    "titel": "Select",
+    "isSingleUse": false,
+    "allowChilds": ["where"],
+    "hasUnlimtedInputs": true,
+    "hasInput": [
+      {
+        "type": "text",
+        "unit": "",
+        "style": "",
+        "value": ""
+      }
+    ]
+  },
+  "where": {
+    "id": "where",
+    "titel": "Where",
+    "isSingleUse": false,
+    "allowChilds": [],
+    "hasUnlimtedInputs": true,
+    "hasInput": [
+      {
+        "type": "text",
+        "unit": "",
+        "style": "",
+        "value": ""
+      }
+    ]
+  }
+}

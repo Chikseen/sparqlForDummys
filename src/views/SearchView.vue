@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="layoutWrapper">
-      <TileGet :tilesToShow="tilesToShow" />
-      <BuilderComponent :tilesToShow="tilesToShow" />
+      <TileGet :components="components" />
+      <BuilderComponent :components="components" />
     </div>
     <QueryOut />
     <button @click="test">make req</button>
@@ -15,6 +15,8 @@ import BuilderComponent from "@/components/BuilderComponent";
 import QueryOut from "@/components/QueryOut";
 import api from "@/api.js";
 
+import { mapState } from "vuex";
+
 export default {
   name: "SrarchView",
   components: {
@@ -23,38 +25,9 @@ export default {
     QueryOut,
   },
   computed: {
-    tilesToShow() {
-      // load from json
-      return [
-        {
-          id: 0,
-          title: "Select",
-          hasText: true,
-          value: "film",
-        },
-        {
-          id: 2,
-          title: "Limit",
-          hasNumber: true,
-          value: 10,
-        },
-        {
-          id: 1,
-          title: "DUMMY Item A",
-          list: 0,
-        },
-        {
-          id: 3,
-          title: "DUMMY Item B",
-          list: 0,
-        },
-        {
-          id: 4,
-          title: "DUMMY Item C",
-          list: 0,
-        },
-      ];
-    },
+    ...mapState({
+      components: (state) => state.components,
+    }),
   },
   methods: {
     async test() {

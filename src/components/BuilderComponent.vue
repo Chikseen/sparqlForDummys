@@ -1,38 +1,77 @@
 <template>
-  <div class="drop-zone" @drop="onDrop($event, 2)" @dragover.prevent @dragenter.prevent>
+  <div class="drop-zone" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent @click="setSelection('')">
     <TransitionGroup name="list" tag="ul">
-      <div v-for="item in itemsToShow" :key="item.title" class="drag-el" draggable="true">
-        <div class="drag-el_delete" @click="removeItem(item.uid)">Remove</div>
-        <div class="drag-el_wrapper">
-          <p>{{ item.title }}</p>
-          <input type="text" v-if="item.hasText" @input="changeValue($event.target.value, item.uid)" />
-          <input type="number" v-if="item.hasNumber" min="0" max="999" step="1" value="10" @input="changeValue($event.target.value, item.uid)" />
-        </div>
+      <div
+        v-for="item in itemsToShow"
+        :key="item.uid"
+        :class="['drag-el', item.allowChilds?.length > 0 ? 'drag-el_hasChilds' : '']"
+        draggable="true"
+        @drop="onDropChild($event, item)"
+        @dragover.prevent
+        @dragenter.prevent
+        @click="setSelection(item.id)"
+        style="z-index: 9999"
+      >
+        <Tile :item="item" :tilesToShow="tilesToShow" class="drag-el" @valueChange="changeValue" @removeItem="removeItem" @changeChild="changeChild" />
       </div>
     </TransitionGroup>
   </div>
 </template>
 <script>
-//import store from "@/store/index.js";
+import Tile from "@/components/TileComponent";
 
 export default {
+  components: {
+    Tile,
+  },
   props: {
-    tilesToShow: { type: Array },
+    components: { type: Object },
+  },
+  computed: {
+    tilesToShow() {
+      let tiles = [];
+      Object.keys(this.components).forEach((item) => {
+        tiles.push(this.components[item]);
+      });
+      return tiles;
+    },
   },
   data() {
     return {
       itemsToShow: [],
+      blockComAdding: false,
     };
   },
   methods: {
     onDrop(evt) {
-     // console.log("dropdrag", evt.dataTransfer.getData("itemID"));
+      if (!this.blockComAdding) {
+        console.log("dropdrag", evt.dataTransfer.getData("itemID"));
+        const itemID = evt.dataTransfer.getData("itemID");
+        const item = this.tilesToShow.find((item) => item.id == itemID);
+        item.uid = Math.floor(Math.random() * 999999999);
+        this.itemsToShow.push({ ...item });
+        this.$store.commit("setCurrentItems", this.itemsToShow);
+      }
+    },
+    onDropChild(evt, origin) {
       const itemID = evt.dataTransfer.getData("itemID");
       const item = this.tilesToShow.find((item) => item.id == itemID);
-      // console.log("item", item);
-      item.uid = Math.floor(Math.random() * 999999999);
-      this.itemsToShow.push({ ...item });
-      this.$store.commit("setCurrentItems", this.itemsToShow);
+      console.log("item", item);
+      console.log("ori", origin);
+      console.log("itemID", itemID);
+      if (origin.allowChilds.some((cc) => cc === itemID)) {
+        const i = this.itemsToShow.findIndex((item) => item.uid == origin.uid);
+        item.uid = Math.floor(Math.random() * 999999999);
+        console.log("i", i);
+        this.itemsToShow[i].childs = item;
+
+        this.$store.commit("setCurrentItems", this.itemsToShow);
+
+        this.blockComAdding = true;
+        setTimeout(() => {
+          this.blockComAdding = false;
+        }, 500);
+      }
     },
     removeItem(uid) {
       // console.log("remove", uid);
@@ -40,12 +79,39 @@ export default {
       this.itemsToShow.splice(i, 1);
       this.$store.commit("setCurrentItems", this.itemsToShow);
     },
-    changeValue(value, uid) {
+    changeValue(value, uid, positionInArray) {
       const i = this.itemsToShow.findIndex((item) => item.uid == uid);
+
+      if (this.itemsToShow[i].hasUnlimtedInputs) {
+        if (this.itemsToShow[i].hasInput[this.itemsToShow[i].hasInput.length - 1].value != "") {
+          let newValue = { ...this.itemsToShow[i].hasInput[this.itemsToShow[i].hasInput.length - 1] };
+          newValue.value = "";
+          this.itemsToShow[i].hasInput.push(newValue);
+        }
+      }
+
+      const item = this.itemsToShow[i];
       if (i >= 0) {
-        this.itemsToShow[i].value = value;
-        // console.log("change", this.itemsToShow[i]);
+        item.hasInput[positionInArray].value = value;
         this.$store.commit("setCurrentItems", [...this.itemsToShow]);
+      }
+    },
+    changeChild(value, uid, positionInArray, origin) {
+      const i = this.itemsToShow.findIndex((item) => item.uid == origin);
+      console.log("ijk", i);
+
+      this.itemsToShow[i].childs.hasInput[positionInArray].value = value;
+
+      console.log(this.itemsToShow[i].childs);
+    },
+    setSelection(item) {
+      // a bit messesy but ok i think
+      if (item != "") {
+        setTimeout(() => {
+          this.$store.commit("setSelectedElement", item);
+        }, 75);
+      } else {
+        this.$store.commit("setSelectedElement", item);
       }
     },
   },
@@ -77,6 +143,10 @@ export default {
     input {
       margin-left: 25px;
     }
+  }
+
+  &_hasChilds {
+    height: 150px;
   }
 
   &_delete {

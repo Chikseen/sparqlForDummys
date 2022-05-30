@@ -1,13 +1,9 @@
 <template>
   <div class="queryOut_wrapper">
-    <h6>{{ query }}</h6>
-    <p>{{ result }}</p>
-    <div v-for="(item, index) in res" :key="index">
-      <p>{{ item.test?.value }}</p>
-      <p>{{ item.obj?.value }}</p>
-      <p>{{ item.pred?.value }}</p>
-      <br />
-    </div>
+    <p style="white-space: pre-line">{{ result }}</p>
+
+    <h5>generated JSON</h5>
+    <h6>{{ JSON.stringify(query, null, 2) }}</h6>
   </div>
 </template>
 
@@ -17,7 +13,7 @@ import api from "@/api.js";
 
 export default {
   computed: {
-    result() {
+    /*     result() {
       //let data = this.query;
       const limit = this.query?.find((item) => item.title == "Limit")?.value;
       console.log("limit", limit);
@@ -27,14 +23,48 @@ export default {
 
       //this.getTrible(select);
 
+      // create Query
       var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ${select} WHERE {
-  ?sub ?pred ?obj .
-} 
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ${select} WHERE {
+            ?sub ?pred ?obj .
+          }
         LIMIT ${limit ? limit : 10}`;
 
       return query;
+    }, */
+    result() {
+      // Prefix is first verytime
+      let queryString = "";
+
+      const prefix = this.query.filter((item) => item.id === "prefix");
+
+      prefix.forEach((item) => {
+        //  console.log("check Item", item);
+        queryString += `PREFIX ${item.hasInput[0].value}: <${item.hasInput[1].value}>` + "\n";
+      });
+
+      // build rest
+      const rest = this.query.filter((item) => item.id != "prefix");
+      rest.forEach((item) => {
+        queryString += "SELECT ";
+
+        item.hasInput.forEach((para, i) => {
+          if (para.value != "") {
+            queryString += ` ${para.value} `;
+          }
+          if (item.hasInput[i + 1] != undefined && item.hasInput[i + 1].value != "") {
+            queryString += `,`;
+          }
+        });
+
+        if (item.childs != {}) {
+          queryString += `WHERE { ${item.childs.hasInput[0].value} .}`;
+        }
+        queryString += "\n";
+      });
+
+      return queryString;
     },
     ...mapState({
       query: (state) => state.currentItems,

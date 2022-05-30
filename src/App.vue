@@ -9,6 +9,16 @@
   <router-view />
 </template>
 
+<script>
+import coms from "@/components";
+
+export default {
+  mounted() {
+    this.$store.commit("setComponents", coms);
+  },
+};
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
