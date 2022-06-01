@@ -98,18 +98,10 @@ export default {
     },
     changeChild(value, uid, positionInArray, origin) {
       const i = this.itemsToShow.findIndex((item) => item.uid == origin);
-      console.log("i", i);
-      console.log("value", value);
-      console.log("uid", uid);
-      console.log("positionInArray", positionInArray);
-      console.log("origin", origin);
       let child = this.itemsToShow[i].childs;
 
-      console.log("pc", child);
       if (child.hasUnlimtedInputs) {
-        console.log("hi", this.itemsToShow[i].childs.hasInput[positionInArray]);
         if (child.hasInput[child.hasInput.length - 1].value != "") {
-          console.log("hi");
           let newValue = { ...child.hasInput[positionInArray] };
           newValue.value = "";
           child.hasInput.push(newValue);

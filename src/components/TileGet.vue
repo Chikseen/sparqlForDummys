@@ -24,12 +24,7 @@ export default {
       const items = Object.keys(this.components);
       let toPush = [];
       items.forEach((item) => {
-        /*         if (this.toLigth) {
-          const show = this.toLigth.some(item.id);
-          toPush.push({ ...this.components[item], show: show });
-        } else { */
         toPush.push({ ...this.components[item] });
-        //   }
       });
       return toPush;
     },

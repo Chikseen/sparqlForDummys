@@ -1,7 +1,7 @@
 <template>
   <div class="queryOut_wrapper">
+    <button @click="copyTC">Copy to clipboard</button>
     <p style="white-space: pre-line">{{ result }}</p>
-
     <h5>generated JSON</h5>
     <h6>{{ JSON.stringify(query, null, 2) }}</h6>
   </div>
@@ -13,26 +13,6 @@ import api from "@/api.js";
 
 export default {
   computed: {
-    /*     result() {
-      //let data = this.query;
-      const limit = this.query?.find((item) => item.title == "Limit")?.value;
-      console.log("limit", limit);
-
-      const select = this.query?.find((item) => item.title == "Select")?.value;
-      console.log("where", select);
-
-      //this.getTrible(select);
-
-      // create Query
-      var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-          SELECT ${select} WHERE {
-            ?sub ?pred ?obj .
-          }
-        LIMIT ${limit ? limit : 10}`;
-
-      return query;
-    }, */
     result() {
       // Prefix is first verytime
       let queryString = "";
@@ -55,15 +35,6 @@ export default {
         });
         const valueString = valuearr.toString().replace(/\[\]/, "").replace(",", ", ");
         queryString += valueString + " ";
-        /* 
-        item.hasInput.forEach((para, i) => {
-          if (para.value != "") {
-            queryString += ` ${para.value} `;
-          }
-          if (item.hasInput[i + 1] != undefined && item.hasInput[i + 1].value != "") {
-            queryString += `,`;
-          }
-        }); */
 
         if (item.childs != {}) {
           let childValues = [];
@@ -95,6 +66,10 @@ export default {
     },
     async getTrible(query) {
       console.log(await api.getTrible(query));
+    },
+    copyTC() {
+      if (navigator && navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(this.res);
+      return Promise.reject("The Clipboard API is not available.");
     },
   },
 };
