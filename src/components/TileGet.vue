@@ -3,7 +3,10 @@
     <div
       v-for="item in tilesToShow"
       :key="item.id"
-      :class="['tileGetSelection_tile', toLigth?.some((id) => id === item.id) ? 'tileGetSelection_tile_high' : 'tileGetSelection_tile_not']"
+      :class="[
+        'tileGetSelection_tile',
+        toLigth?.some((id) => id === item.id) || (!item.needRoot && selectedElement == '') ? 'tileGetSelection_tile_high' : 'tileGetSelection_tile_not',
+      ]"
       draggable="true"
       @dragstart="startDrag($event, components[item.id])"
     >
@@ -29,8 +32,11 @@ export default {
       return toPush;
     },
     toLigth() {
-      this.selectedElement;
       return this.components[this.selectedElement]?.allowChilds;
+    },
+    // dont judge me i am super lazy  and tired rn
+    toLigth2() {
+      return this.components.filter((item) => item.needRoot === true);
     },
     ...mapState({
       selectedElement: (state) => state.selectedElement,
@@ -75,7 +81,7 @@ export default {
     }
 
     &_not {
-      background-color: rgb(255, 197, 197);
+      background-color: rgb(255, 230, 230);
     }
   }
 }

@@ -25,7 +25,7 @@ export default {
       });
 
       // build rest
-      const rest = this.query.filter((item) => item.id != "prefix");
+      const rest = this.query.filter((item) => item.id != "prefix" && item.id != "limit");
       rest.forEach((item) => {
         queryString += "SELECT ";
 

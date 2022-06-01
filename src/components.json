@@ -4,6 +4,7 @@
     "titel": "Prefix",
     "isSingleUse": false,
     "allowChilds": [],
+    "needRoot": false,
     "hasUnlimtedInputs": false,
     "hasInput": [
       {
@@ -20,11 +21,28 @@
       }
     ]
   },
+  "limit": {
+    "id": "limit",
+    "titel": "Limit",
+    "isSingleUse": true,
+    "allowChilds": [],
+    "needRoot": false,
+    "hasUnlimtedInputs": false,
+    "hasInput": [
+      {
+        "type": "number",
+        "unit": "",
+        "style": "short",
+        "value": "10"
+      }
+    ]
+  },
   "select": {
     "id": "select",
     "titel": "Select",
     "isSingleUse": false,
     "allowChilds": ["where"],
+    "needRoot": false,
     "hasUnlimtedInputs": true,
     "hasInput": [
       {
@@ -40,6 +58,7 @@
     "titel": "Where",
     "isSingleUse": false,
     "allowChilds": [],
+    "needRoot": true,
     "hasUnlimtedInputs": true,
     "hasInput": [
       {
