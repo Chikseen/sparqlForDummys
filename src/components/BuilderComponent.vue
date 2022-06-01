@@ -82,6 +82,11 @@ export default {
     changeValue(value, uid, positionInArray) {
       const i = this.itemsToShow.findIndex((item) => item.uid == uid);
 
+      /*       console.log("value", value);
+      console.log("uid", uid);
+      console.log("positionInArray", positionInArray);
+      console.log("i", i); */
+
       if (this.itemsToShow[i].hasUnlimtedInputs) {
         if (this.itemsToShow[i].hasInput[this.itemsToShow[i].hasInput.length - 1].value != "") {
           let newValue = { ...this.itemsToShow[i].hasInput[this.itemsToShow[i].hasInput.length - 1] };
@@ -90,11 +95,13 @@ export default {
         }
       }
 
-      const item = this.itemsToShow[i];
+      const item = JSON.parse(JSON.stringify(this.itemsToShow[i])); // i need to understand why JS is wierd
       if (i >= 0) {
         item.hasInput[positionInArray].value = value;
+        this.itemsToShow[i] = { ...item };
         this.$store.commit("setCurrentItems", [...this.itemsToShow]);
       }
+      console.log("ttt", [...this.itemsToShow]);
     },
     changeChild(value, uid, positionInArray, origin) {
       const i = this.itemsToShow.findIndex((item) => item.uid == origin);
