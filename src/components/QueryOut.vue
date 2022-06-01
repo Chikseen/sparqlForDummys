@@ -49,6 +49,13 @@ export default {
       rest.forEach((item) => {
         queryString += "SELECT ";
 
+        let valuearr = [];
+        item.hasInput.forEach((value) => {
+          if (value.value != "") valuearr.push(value.value);
+        });
+        const valueString = valuearr.toString().replace(/\[\]/, "").replace(",", ", ");
+        queryString += valueString + " ";
+        /* 
         item.hasInput.forEach((para, i) => {
           if (para.value != "") {
             queryString += ` ${para.value} `;
@@ -56,10 +63,15 @@ export default {
           if (item.hasInput[i + 1] != undefined && item.hasInput[i + 1].value != "") {
             queryString += `,`;
           }
-        });
+        }); */
 
         if (item.childs != {}) {
-          queryString += `WHERE { ${item.childs.hasInput[0].value} .}`;
+          let childValues = [];
+          item.childs?.hasInput.forEach((value) => {
+            if (value.value != "") childValues.push(value.value);
+          });
+          const valueStringChild = childValues.toString().replace(/\[\]/, "").replace(",", ", ");
+          if (childValues.length > 0) queryString += `WHERE { ${valueStringChild} .}`;
         }
         queryString += "\n";
       });
