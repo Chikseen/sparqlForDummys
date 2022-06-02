@@ -11,13 +11,39 @@
         "type": "text",
         "unit": "",
         "style": "short",
-        "value": "rdf"
+        "value": ""
       },
       {
-        "type": "text",
+        "type": "list",
         "unit": "",
         "style": "long",
-        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns"
+        "value": "",
+        "datalist": [
+          "http://www.wikidata.org/entity/",
+          "http://www.wikidata.org/entity/statement/",
+          "http://www.wikidata.org/value/",
+          "http://www.wikidata.org/prop/direct/",
+          "http://wikiba.se/ontology#",
+          "http://www.wikidata.org/prop/",
+          "http://www.wikidata.org/prop/statement/",
+          "http://www.wikidata.org/prop/qualifier/",
+          "http://www.bigdata.com/rdf#",
+          "http://www.wikidata.org/reference/",
+          "http://www.wikidata.org/prop/statement/value/",
+          "http://www.wikidata.org/prop/qualifier/value/",
+          "http://www.wikidata.org/prop/reference/",
+          "http://www.wikidata.org/prop/reference/value/",
+          "http://www.wikidata.org/prop/novalue/",
+          "http://www.wikidata.org/wiki/Special:EntityData/",
+          "http://schema.org/",
+          "http://www.w3.org/2002/07/owl#",
+          "http://www.w3.org/2004/02/skos/core#",
+          "http://www.w3.org/2001/XMLSchema#",
+          "http://www.w3.org/ns/prov#",
+          "http://www.bigdata.com/rdf/search#",
+          "http://www.bigdata.com/rdf/gas#",
+          "http://www.bigdata.com/queryHints#"
+        ]
       }
     ]
   },

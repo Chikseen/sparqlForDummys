@@ -47,10 +47,15 @@ export default {
       if (!this.blockComAdding) {
         console.log("dropdrag", evt.dataTransfer.getData("itemID"));
         const itemID = evt.dataTransfer.getData("itemID");
-        const item = this.tilesToShow.find((item) => item.id == itemID);
+        const item = this.tilesToShow.find((item) => item.id === itemID);
         item.uid = Math.floor(Math.random() * 999999999);
-        this.itemsToShow.push({ ...item });
-        this.$store.commit("setCurrentItems", this.itemsToShow);
+
+        if (item.isSingleUse && this.itemsToShow.find((item) => item.id === itemID)) {
+          console.log("This item can exist only once");
+        } else {
+          this.itemsToShow.push({ ...item });
+          this.$store.commit("setCurrentItems", this.itemsToShow);
+        }
       }
     },
     onDropChild(evt, origin) {
@@ -82,10 +87,10 @@ export default {
     changeValue(value, uid, positionInArray) {
       const i = this.itemsToShow.findIndex((item) => item.uid == uid);
 
-      /*       console.log("value", value);
+      console.log("value", value);
       console.log("uid", uid);
       console.log("positionInArray", positionInArray);
-      console.log("i", i); */
+      console.log("i", i);
 
       if (this.itemsToShow[i].hasUnlimtedInputs) {
         if (this.itemsToShow[i].hasInput[this.itemsToShow[i].hasInput.length - 1].value != "") {
@@ -97,11 +102,11 @@ export default {
 
       const item = JSON.parse(JSON.stringify(this.itemsToShow[i])); // i need to understand why JS is wierd
       if (i >= 0) {
+        console.log("commit new");
         item.hasInput[positionInArray].value = value;
         this.itemsToShow[i] = { ...item };
         this.$store.commit("setCurrentItems", [...this.itemsToShow]);
       }
-      console.log("ttt", [...this.itemsToShow]);
     },
     changeChild(value, uid, positionInArray, origin) {
       const i = this.itemsToShow.findIndex((item) => item.uid == origin);

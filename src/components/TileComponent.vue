@@ -6,20 +6,30 @@
       <div class="drag-el_input">
         <div v-for="(input, i) in item.hasInput" :key="i">
           <input
-            :class="['drag-el_input_text', `drag-el_input_text_${input.style}`]"
             type="text"
+            :class="['drag-el_input_text', `drag-el_input_text_${input.style}`]"
             v-if="input.type === 'text'"
             @input="$emit('valueChange', $event.target.value, item.uid, i)"
           />
           <input
-            class="drag-el_input_number"
             type="number"
+            class="drag-el_input_number"
             v-if="input.type === 'number'"
             max="999"
             step="1"
-            :value="input.default"
+            min="0"
             @input="$emit('valueChange', $event.target.value, item.uid, i)"
           />
+          <input
+            type="text"
+            :class="['drag-el_input_text', `drag-el_input_text_${input.style}`]"
+            :list="item.uid + 'atpos' + i"
+            v-if="input.type === 'list'"
+            @input="$emit('valueChange', $event.target.value, item.uid, i)"
+          />
+          <datalist v-if="input.type === 'list'" :id="item.uid + 'atpos' + i">
+            <option v-for="(list, j) in input.datalist" :key="list + j" :value="list" />
+          </datalist>
         </div>
       </div>
     </div>

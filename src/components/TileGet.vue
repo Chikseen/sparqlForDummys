@@ -75,7 +75,7 @@ export default {
     background-color: rgb(253, 166, 166);
     margin-bottom: 10px;
     padding: 10px;
-
+    transition: all 0.5s 0.1s;
     &_high {
       background-color: rgb(255, 110, 110);
     }

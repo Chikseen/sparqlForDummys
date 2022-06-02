@@ -27,24 +27,33 @@ export default {
       // build rest
       const rest = this.query.filter((item) => item.id != "prefix" && item.id != "limit");
       rest.forEach((item) => {
-        queryString += "SELECT ";
-
         let valuearr = [];
         item.hasInput.forEach((value) => {
           if (value.value != "") valuearr.push(value.value);
         });
         const valueString = valuearr.toString().replace(/\[\]/, "").replace(",", ", ");
-        queryString += valueString + " ";
+        if (valueString != "") {
+          queryString += "SELECT ";
+          queryString += valueString + " ";
+        }
 
         if (item.childs != {}) {
           let childValues = [];
           item.childs?.hasInput.forEach((value) => {
             if (value.value != "") childValues.push(value.value);
           });
-          const valueStringChild = childValues.toString().replace(/\[\]/, "").replace(",", ", ");
-          if (childValues.length > 0) queryString += `WHERE { ${valueStringChild} .}`;
+          const valueStringChild = childValues.toString().replace(/\[\]/, "");
+          if (childValues.length > 0) queryString += `WHERE { ${valueStringChild.replace(/,|,/g, " ")} .}`;
         }
         queryString += "\n";
+      });
+
+      // build end -> stuff that should come last
+      const limit = this.query.filter((item) => item.id === "limit");
+
+      limit.forEach((item) => {
+        //  console.log("check Item", item);
+        queryString += `Limit ${item.hasInput[0].value}` + "\n";
       });
 
       return queryString;
@@ -68,7 +77,10 @@ export default {
       console.log(await api.getTrible(query));
     },
     copyTC() {
-      if (navigator && navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(this.res);
+      console.log("tctcp", this.result);
+      if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(this.result);
+      }
       return Promise.reject("The Clipboard API is not available.");
     },
   },
