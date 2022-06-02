@@ -81,7 +81,8 @@ export default {
     }
 
     &_not {
-      background-color: rgb(255, 230, 230);
+      background-color: #b0b0b0;
+      color: #666666;
     }
   }
 }

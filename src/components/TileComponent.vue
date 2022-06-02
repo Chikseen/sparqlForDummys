@@ -33,7 +33,13 @@
         </div>
       </div>
     </div>
-    <TileComponent v-if="item.allowChilds?.length > 0 && item.childs" :item="item.childs" @valueChange="changeChild" @removeItem="$emit('removeItem')" />
+    <TileComponent
+      class="drag-el_child"
+      v-if="item.allowChilds?.length > 0 && item.childs"
+      :item="item.childs"
+      @valueChange="changeChild"
+      @removeItem="$emit('removeItem')"
+    />
   </div>
 </template>
 
@@ -75,6 +81,14 @@ export default {
       width: 50px;
       max-width: 150px;
     }
+  }
+
+  &_child {
+    margin: 5px 0 0 25px;
+    padding: 5px;
+    border: solid 0.5px;
+    border-radius: 5px;
+    border-color: #b0b0b0
   }
 }
 </style>

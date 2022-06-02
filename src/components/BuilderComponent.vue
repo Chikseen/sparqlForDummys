@@ -18,6 +18,33 @@
   </div>
 </template>
 <script>
+/* NEW AND BETTER TILE HANDLING IS IN NEED FOR SCALEABILITY
+-> oriantaion on PCR realation from "FindIt" project
+
+-> maingoal :> make every component independet so it isent a object mark as child in other object
+  -> if i still need a <operationName>Child method something is wrong 
+
+  -> first test -> make an unlimited inheritation of select moduels (just to test )
+    -> check value
+  -> If this works the rest should also
+
+-> State in Store: components
+  -> every component is in root
+  -> every component get an EXTRA attribute "parent"
+  -> make the "Child" in root of object
+    -> list all "uid"s here
+    -> if array is filled :> get uid :> print it and add to queryout string :> repeat 
+      -> Rekursive method is nessesary
+  
+  -> if dropded on existing component get highest level on click event ray
+    -> maybe work mit something else then a timeout to figure out wich is first layer 
+  -> child should appear in parent component
+
+-> need lots of changes in queryOut component
+
+-> Remove or replace "ProofOfConcept" Code
+*/
+
 import Tile from "@/components/TileComponent";
 
 export default {
