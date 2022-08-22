@@ -1,13 +1,15 @@
 <template>
   <div class="queryOut_wrapper">
     <button @click="copyTC">Copy to clipboard</button>
-    <p style="white-space: pre-line">{{ result }}</p>
+    <p style="white-space: pre-line">{{ prettier }}</p>
     <h5>generated JSON</h5>
-    <h6>{{ JSON.stringify(query, null, 2) }}</h6>
+    <p>{{ query }}</p>
   </div>
 </template>
 
 <script>
+import * as sparqly from "../../node_modules/sparqly/src/sparqly.js";
+
 import { mapState } from "vuex";
 import api from "@/api.js";
 
@@ -58,6 +60,9 @@ export default {
 
       return queryString;
     },
+    prettier() {
+      return sparqly.pretty(this.result);
+    },
     ...mapState({
       query: (state) => state.currentItems,
     }),
@@ -96,6 +101,10 @@ export default {
     width: calc(100% - 40px);
     min-width: 385px;
     background-color: #eee;
+
+    p {
+      text-align: left;
+    }
   }
 }
 </style>
