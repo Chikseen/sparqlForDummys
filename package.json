@@ -11,6 +11,7 @@
     "ajax": "^0.0.4",
     "core-js": "^3.8.3",
     "sparql-http-client": "^2.4.0",
+    "sparqly": "github:mrpaulblack/sparqly",
     "virtuoso-sparql-client": "^0.2.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",

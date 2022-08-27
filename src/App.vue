@@ -2,10 +2,9 @@
   <h1>SPARQL For Dummys</h1>
   <h4>A simple sparql query generator</h4>
   <h4>simply drag and drop the components in place, write the params and get your sparql query</h4>
-  <nav>
+ <!--  <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  </nav> -->
   <router-view />
 </template>
 
