@@ -10,6 +10,7 @@
   "dependencies": {
     "ajax": "^0.0.4",
     "core-js": "^3.8.3",
+    "register-service-worker": "^1.7.2",
     "sparql-http-client": "^2.4.0",
     "sparqly": "github:mrpaulblack/sparqly",
     "virtuoso-sparql-client": "^0.2.2",
@@ -22,6 +23,7 @@
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
