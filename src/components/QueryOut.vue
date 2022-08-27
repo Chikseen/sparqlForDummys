@@ -1,9 +1,9 @@
 <template>
   <div class="queryOut_wrapper">
     <button @click="copyTC">Copy to clipboard</button>
-    <p style="white-space: pre-line">{{ prettier }}</p>
-    <h5>generated JSON</h5>
-    <p>{{ query }}</p>
+    <p style="white-space: pre-line">{{ result }}</p>
+    <!--     <h5>generated JSON</h5>
+    <p>{{ query }}</p> -->
   </div>
 </template>
 
@@ -61,6 +61,7 @@ export default {
       return queryString;
     },
     prettier() {
+      console.log("res", this.result)
       return sparqly.pretty(this.result);
     },
     ...mapState({

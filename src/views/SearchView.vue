@@ -5,7 +5,6 @@
       <BuilderComponent :components="components" />
     </div>
     <QueryOut />
-    <button @click="test">make req</button>
   </div>
 </template>
 
